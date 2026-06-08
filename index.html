@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Guía visual y completa sobre el dropshipping: qué es, cómo funciona, ventajas, riesgos, cómo empezar y qué herramientas se usan. Proyecto de grado sobre comercio electrónico." />
+  <meta name="author" content="Fabián Granados" />
+  <meta name="theme-color" content="#0b1020" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Dropshipping — Guía completa del modelo de comercio electrónico" />
+  <meta property="og:description" content="Qué es, cómo funciona, ventajas y riesgos del dropshipping. Una guía visual de principio a fin." />
+  <meta property="og:locale" content="es_CO" />
+
+  <title>Dropshipping — Guía completa del modelo de comercio electrónico</title>
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- Tipografías (mejora progresiva; si no cargan, se usa el stack del sistema) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Barra de progreso de lectura -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- Salto de accesibilidad -->
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a class="brand" href="#hero" aria-label="Inicio">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
+            <path d="M3 7l9-4 9 4-9 4-9-4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M3 12l9 4 9-4M3 17l9 4 9-4" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="brand__text">Drop<strong>ship</strong></span>
+      </a>
+
+      <nav class="nav__links" id="navLinks" aria-label="Navegación principal">
+        <a href="#que-es">Qué es</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#ventajas">Ventajas y retos</a>
+        <a href="#empezar">Cómo empezar</a>
+        <a href="#herramientas">Herramientas</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <div class="hero__aurora" aria-hidden="true"></div>
+      <div class="container hero__inner">
+        <p class="eyebrow reveal">Proyecto de grado · Comercio electrónico</p>
+        <h1 class="hero__title reveal">
+          Entiende el <span class="grad">dropshipping</span><br />de principio a fin.
+        </h1>
+        <p class="hero__sub reveal">
+          El modelo de negocio que permite vender en línea <strong>sin mantener inventario</strong>.
+          Aquí lo desarmamos pieza por pieza: qué es, cómo funciona, sus ventajas, sus riesgos
+          y todo lo que necesitas para entenderlo de verdad.
+        </p>
+        <div class="hero__cta reveal">
+          <a class="btn btn--primary" href="#que-es">Empezar a explorar</a>
+          <a class="btn btn--ghost" href="#como-funciona">Ver cómo funciona</a>
+        </div>
+
+        <div class="hero__chips reveal" aria-hidden="true">
+          <span class="chip">Sin inventario</span>
+          <span class="chip">Baja inversión inicial</span>
+          <span class="chip">E-commerce</span>
+          <span class="chip">Proveedor → Cliente</span>
+        </div>
+      </div>
+
+      <a class="hero__scroll" href="#stats" aria-label="Desplazarse hacia abajo">
+        <span></span>
+      </a>
+    </section>
+
+    <!-- ============ STATS ============ -->
+    <section class="stats" id="stats" aria-label="El dropshipping en cifras">
+      <div class="container">
+        <div class="stats__grid">
+          <div class="stat reveal">
+            <div class="stat__num"><span data-count="243" data-suffix=" MM">0</span></div>
+            <div class="stat__label">USD: tamaño estimado del mercado global<sup>*</sup></div>
+          </div>
+          <div class="stat reveal">
+            <div class="stat__num"><span data-count="27" data-suffix="%">0</span></div>
+            <div class="stat__label">de las tiendas online usa dropshipping<sup>*</sup></div>
+          </div>
+          <div class="stat reveal">
+            <div class="stat__num"><span data-count="0">0</span></div>
+            <div class="stat__label">inventario propio para empezar</div>
+          </div>
+          <div class="stat reveal">
+            <div class="stat__num"><span data-count="4">0</span></div>
+            <div class="stat__label">pasos en el ciclo del modelo</div>
+          </div>
+        </div>
+        <p class="stats__note"><sup>*</sup> Cifras aproximadas del sector usadas con fines ilustrativos. Verifica y cita fuentes actualizadas en el documento final.</p>
+      </div>
+    </section>
+
+    <!-- ============ QUÉ ES ============ -->
+    <section class="section" id="que-es">
+      <div class="container grid-2">
+        <div class="reveal">
+          <span class="section-tag">// definición</span>
+          <h2 class="section-title">¿Qué es el dropshipping?</h2>
+          <p class="lead">
+            El <strong>dropshipping</strong> es un modelo de comercio electrónico en el que una tienda
+            vende productos <strong>sin almacenarlos ni gestionarlos físicamente</strong>.
+          </p>
+          <p>
+            Cuando un cliente realiza un pedido, la tienda lo reenvía a un proveedor externo
+            (mayorista o fabricante), que se encarga de empacar y enviar el producto
+            <strong>directamente al cliente final</strong>. El vendedor nunca toca la mercancía:
+            su rol está en la vitrina, el marketing y la atención al cliente.
+          </p>
+          <p>
+            En otras palabras, el comerciante actúa como <strong>intermediario</strong> entre el cliente
+            y el proveedor. Su ganancia es la diferencia entre el precio al que vende y el precio
+            mayorista que paga, menos los costos de operación.
+          </p>
+        </div>
+
+        <div class="reveal">
+          <div class="card card--accent definition-visual" aria-hidden="true">
+            <div class="dv-row">
+              <div class="dv-node">
+                <span class="dv-ico">🛍️</span>
+                <span>Tu tienda</span>
+              </div>
+              <span class="dv-arrow">→</span>
+              <div class="dv-node">
+                <span class="dv-ico">📦</span>
+                <span>Proveedor</span>
+              </div>
+              <span class="dv-arrow">→</span>
+              <div class="dv-node">
+                <span class="dv-ico">🏠</span>
+                <span>Cliente</span>
+              </div>
+            </div>
+            <p class="dv-caption">
+              Vendes el producto, el proveedor lo envía. <br />Tú nunca manejas inventario.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CÓMO FUNCIONA ============ -->
+    <section class="section section--alt" id="como-funciona">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">// el ciclo</span>
+          <h2 class="section-title">¿Cómo funciona, paso a paso?</h2>
+          <p class="section-sub">
+            Todo el modelo se resume en un ciclo de cuatro pasos que se repite con cada venta.
+          </p>
+        </div>
+
+        <ol class="steps">
+          <li class="step reveal">
+            <div class="step__num">01</div>
+            <h3 class="step__title">El cliente compra</h3>
+            <p>El cliente entra a tu tienda online y paga el <strong>precio de venta</strong> por un producto, como en cualquier e-commerce.</p>
+          </li>
+          <li class="step reveal">
+            <div class="step__num">02</div>
+            <h3 class="step__title">Reenvías el pedido</h3>
+            <p>Trasladas el pedido al proveedor y pagas el <strong>precio mayorista</strong>, junto con los datos de envío del cliente.</p>
+          </li>
+          <li class="step reveal">
+            <div class="step__num">03</div>
+            <h3 class="step__title">El proveedor envía</h3>
+            <p>El proveedor empaca y despacha el producto <strong>directamente al cliente</strong>, normalmente con tu marca o de forma neutral.</p>
+          </li>
+          <li class="step reveal">
+            <div class="step__num">04</div>
+            <h3 class="step__title">Ganas la diferencia</h3>
+            <p>Tu utilidad es <strong>precio de venta − precio mayorista − costos</strong> (marketing, comisiones, plataforma).</p>
+          </li>
+        </ol>
+
+        <div class="formula reveal" aria-label="Fórmula de ganancia">
+          <span class="formula__chip formula__chip--sell">Precio de venta</span>
+          <span class="formula__op">−</span>
+          <span class="formula__chip formula__chip--cost">Precio mayorista</span>
+          <span class="formula__op">−</span>
+          <span class="formula__chip formula__chip--cost">Costos</span>
+          <span class="formula__op">=</span>
+          <span class="formula__chip formula__chip--profit">Tu ganancia</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VENTAJAS Y RETOS ============ -->
+    <section class="section" id="ventajas">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">// balance</span>
+          <h2 class="section-title">Ventajas y retos</h2>
+          <p class="section-sub">
+            Como todo modelo de negocio, el dropshipping tiene una cara luminosa y otra exigente.
+            Conocer ambas es lo que separa una expectativa realista de una ilusión.
+          </p>
+        </div>
+
+        <div class="balance">
+          <div class="balance__col reveal">
+            <h3 class="balance__title balance__title--pro">
+              <span class="balance__icon">✓</span> Ventajas
+            </h3>
+            <ul class="list list--pro">
+              <li><strong>Baja inversión inicial.</strong> No compras inventario por adelantado.</li>
+              <li><strong>Fácil de poner en marcha.</strong> Sin bodega, sin logística propia.</li>
+              <li><strong>Catálogo amplio y flexible.</strong> Pruebas productos sin riesgo de stock.</li>
+              <li><strong>Ubicación libre.</strong> Se opera desde cualquier lugar con internet.</li>
+              <li><strong>Escalable.</strong> Más ventas no implican más almacenamiento.</li>
+            </ul>
+          </div>
+
+          <div class="balance__col reveal">
+            <h3 class="balance__title balance__title--con">
+              <span class="balance__icon">!</span> Retos
+            </h3>
+            <ul class="list list--con">
+              <li><strong>Márgenes bajos.</strong> Mucha competencia presiona los precios.</li>
+              <li><strong>Poco control de stock.</strong> Dependes del inventario del proveedor.</li>
+              <li><strong>Logística compleja.</strong> Envíos largos o de múltiples proveedores.</li>
+              <li><strong>Calidad y marca limitadas.</strong> No controlas el producto directamente.</li>
+              <li><strong>Responsabilidad total.</strong> El cliente te reclama a ti, aunque falle el proveedor.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CÓMO EMPEZAR ============ -->
+    <section class="section section--alt" id="empezar">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">// hoja de ruta</span>
+          <h2 class="section-title">¿Cómo empezar?</h2>
+          <p class="section-sub">Una ruta ordenada para pasar de la idea a la primera venta.</p>
+        </div>
+
+        <div class="timeline">
+          <div class="tl-item reveal">
+            <div class="tl-dot">1</div>
+            <div class="tl-body">
+              <h3>Elige un nicho</h3>
+              <p>Un mercado específico con demanda y poca saturación. Mejor especializarse que vender de todo.</p>
+            </div>
+          </div>
+          <div class="tl-item reveal">
+            <div class="tl-dot">2</div>
+            <div class="tl-body">
+              <h3>Investiga proveedores</h3>
+              <p>Evalúa tiempos de envío, calidad, precios y reputación. La logística confiable es clave.</p>
+            </div>
+          </div>
+          <div class="tl-item reveal">
+            <div class="tl-dot">3</div>
+            <div class="tl-body">
+              <h3>Crea tu tienda</h3>
+              <p>Monta el e-commerce (Shopify, WooCommerce, etc.), define identidad, medios de pago y políticas.</p>
+            </div>
+          </div>
+          <div class="tl-item reveal">
+            <div class="tl-dot">4</div>
+            <div class="tl-body">
+              <h3>Publica productos y precios</h3>
+              <p>Importa el catálogo, redacta buenas descripciones y fija márgenes que cubran tus costos.</p>
+            </div>
+          </div>
+          <div class="tl-item reveal">
+            <div class="tl-dot">5</div>
+            <div class="tl-body">
+              <h3>Atrae clientes</h3>
+              <p>Marketing en redes, anuncios pagos y SEO. Sin tráfico no hay ventas: aquí está el verdadero trabajo.</p>
+            </div>
+          </div>
+          <div class="tl-item reveal">
+            <div class="tl-dot">6</div>
+            <div class="tl-body">
+              <h3>Gestiona y optimiza</h3>
+              <p>Procesa pedidos, atiende clientes y mide resultados para mejorar producto, precio y publicidad.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HERRAMIENTAS ============ -->
+    <section class="section" id="herramientas">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">// ecosistema</span>
+          <h2 class="section-title">Plataformas y herramientas</h2>
+          <p class="section-sub">El stack típico de un negocio de dropshipping, organizado por función.</p>
+        </div>
+
+        <div class="tools">
+          <div class="card tool reveal">
+            <h3 class="tool__title">🏪 Plataformas de tienda</h3>
+            <p class="tool__desc">Donde construyes tu vitrina y procesas pagos.</p>
+            <ul class="tags">
+              <li>Shopify</li><li>WooCommerce</li><li>Wix</li><li>Tiendanube</li>
+            </ul>
+          </div>
+          <div class="card tool reveal">
+            <h3 class="tool__title">📦 Proveedores y conectores</h3>
+            <p class="tool__desc">Catálogos y apps que automatizan los pedidos.</p>
+            <ul class="tags">
+              <li>AliExpress</li><li>DSers</li><li>CJ Dropshipping</li><li>Spocket</li><li>Zendrop</li>
+            </ul>
+          </div>
+          <div class="card tool reveal">
+            <h3 class="tool__title">📣 Marketing y ventas</h3>
+            <p class="tool__desc">Para atraer tráfico y convertirlo en clientes.</p>
+            <ul class="tags">
+              <li>Meta Ads</li><li>Google Ads</li><li>TikTok Ads</li><li>Email marketing</li>
+            </ul>
+          </div>
+          <div class="card tool reveal">
+            <h3 class="tool__title">📊 Análisis y soporte</h3>
+            <p class="tool__desc">Para medir resultados y atender al cliente.</p>
+            <ul class="tags">
+              <li>Google Analytics</li><li>Hotjar</li><li>Chat / WhatsApp</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MITOS VS REALIDAD ============ -->
+    <section class="section section--alt" id="mitos">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">// expectativas</span>
+          <h2 class="section-title">Mitos vs. realidad</h2>
+          <p class="section-sub">Lo que se promete en internet frente a lo que realmente implica.</p>
+        </div>
+
+        <div class="myths">
+          <div class="myth reveal">
+            <p class="myth__myth"><span>Mito</span> «Te haces rico rápido y sin esfuerzo.»</p>
+            <p class="myth__real"><span>Realidad</span> Requiere trabajo constante, pruebas y un buen tiempo de aprendizaje.</p>
+          </div>
+          <div class="myth reveal">
+            <p class="myth__myth"><span>Mito</span> «No necesitas invertir dinero.»</p>
+            <p class="myth__real"><span>Realidad</span> No compras inventario, pero sí necesitas presupuesto para marketing.</p>
+          </div>
+          <div class="myth reveal">
+            <p class="myth__myth"><span>Mito</span> «Es un ingreso 100% pasivo.»</p>
+            <p class="myth__real"><span>Realidad</span> Exige gestión activa de pedidos, proveedores y atención al cliente.</p>
+          </div>
+          <div class="myth reveal">
+            <p class="myth__myth"><span>Mito</span> «Cualquier producto se vende solo.»</p>
+            <p class="myth__real"><span>Realidad</span> El nicho, la oferta y la publicidad determinan el éxito.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section class="section" id="faq">
+      <div class="container container--narrow">
+        <div class="section-head reveal">
+          <span class="section-tag">// dudas frecuentes</span>
+          <h2 class="section-title">Preguntas frecuentes</h2>
+        </div>
+
+        <div class="faq">
+          <details class="faq__item reveal">
+            <summary>¿El dropshipping es legal?</summary>
+            <div class="faq__a"><p>Sí. Es un modelo de negocio legítimo siempre que cumplas con las normas de comercio, los impuestos correspondientes y la protección al consumidor de tu país.</p></div>
+          </details>
+          <details class="faq__item reveal">
+            <summary>¿Necesito mucho dinero para empezar?</summary>
+            <div class="faq__a"><p>No para inventario, ya que solo compras el producto cuando ya te lo pagaron. Sin embargo, sí conviene contar con presupuesto para publicidad y para la plataforma de tu tienda.</p></div>
+          </details>
+          <details class="faq__item reveal">
+            <summary>¿Cuánto tardan los envíos?</summary>
+            <div class="faq__a"><p>Depende del proveedor. Con proveedores internacionales puede tardar varias semanas; con proveedores locales o regionales, los tiempos se reducen bastante. Comunicar plazos claros evita reclamos.</p></div>
+          </details>
+          <details class="faq__item reveal">
+            <summary>¿Es realmente rentable?</summary>
+            <div class="faq__a"><p>Puede serlo, pero los márgenes suelen ser ajustados y la competencia es alta. La rentabilidad depende del nicho, de los proveedores y, sobre todo, de qué tan eficiente sea tu marketing.</p></div>
+          </details>
+          <details class="faq__item reveal">
+            <summary>¿En qué se diferencia del comercio tradicional?</summary>
+            <div class="faq__a"><p>En el comercio tradicional compras y almacenas inventario antes de venderlo. En el dropshipping vendes primero y compras después, sin manejar stock ni logística propia.</p></div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CTA / CIERRE ============ -->
+    <section class="final" id="cierre">
+      <div class="container final__inner reveal">
+        <h2>En resumen</h2>
+        <p>
+          El dropshipping <strong>baja la barrera de entrada</strong> al comercio electrónico:
+          permite vender sin inventario y con poca inversión inicial. A cambio, exige
+          <strong>esfuerzo en marketing, buenos proveedores y gestión constante</strong>.
+          Entender bien el modelo —su ciclo, sus ventajas y sus límites— es el primer paso
+          para decidir si tiene sentido para un proyecto real.
+        </p>
+        <a class="btn btn--primary btn--lg" href="#hero">Volver al inicio</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" width="20" height="20">
+            <path d="M3 7l9-4 9 4-9 4-9-4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M3 12l9 4 9-4M3 17l9 4 9-4" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span>Dropship · Proyecto de grado</span>
+      </div>
+      <p class="footer__note">
+        Página informativa con fines académicos. Las cifras citadas son referenciales;
+        se recomienda verificarlas con fuentes actualizadas.
+      </p>
+      <p class="footer__copy">© <span id="year">2026</span> · Fabián Granados</p>
+    </div>
+  </footer>
+
+  <!-- Botón volver arriba -->
+  <button class="to-top" id="toTop" aria-label="Volver arriba" title="Volver arriba">↑</button>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
