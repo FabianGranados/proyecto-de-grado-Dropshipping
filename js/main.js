@@ -155,10 +155,10 @@
   }
 
   /* ----------------------------------------------------------------------
-     7. Carrusel de "Referentes del sector"
-        Renderiza las tarjetas desde window.REFERENTES (js/referentes.js):
-        navegación prev/next, puntos, contador, filtro por idioma,
-        auto-scroll con pausa, teclado y datos estructurados (JSON-LD).
+     7. Carrusel "Referentes del sector" — tira deslizable (swipe / drag)
+        Fila de tarjetas con scroll horizontal real + scroll-snap ("imán").
+        Swipe en táctil, arrastrar con el mouse en desktop, botones, puntos,
+        contador y filtro por idioma. Se renderiza desde window.REFERENTES.
   ---------------------------------------------------------------------- */
   (function () {
     var data = window.REFERENTES || [];
@@ -166,6 +166,7 @@
     var track = document.getElementById("refTrack");
     if (!root || !track || !data.length) return;
 
+    var viewport = root.querySelector(".carousel__viewport");
     var counter = document.getElementById("refCounter");
     var dotsWrap = document.getElementById("refDots");
     var prevBtn = root.querySelector(".carousel__btn--prev");
@@ -174,10 +175,8 @@
 
     var filter = "all";
     var items = [];
-    var index = 0;
     var perView = 1;
-    var timer = null;
-    var AUTO_MS = 5000;
+    var smooth = prefersReduced ? "auto" : "smooth";
 
     function computePerView() {
       var w = window.innerWidth;
@@ -185,7 +184,13 @@
       if (w >= 600) return 2;
       return 1;
     }
-    function maxIndex() { return Math.max(0, items.length - perView); }
+    function cardWidth() {
+      var first = track.children[0];
+      return first ? first.getBoundingClientRect().width : (viewport.clientWidth || 1);
+    }
+    function activeIndex() {
+      return Math.max(0, Math.min(items.length - 1, Math.round(viewport.scrollLeft / cardWidth())));
+    }
     function badge(lang) { return lang === "en" ? "Angloparlante" : "Hispanohablante"; }
     function platform(url) {
       if (/linkedin\./i.test(url)) return "LinkedIn";
@@ -214,7 +219,7 @@
           '<li class="carousel__slide" role="group" aria-roledescription="diapositiva" aria-label="' + (i + 1) + " de " + items.length + '">' +
             '<article class="ref-card">' +
               '<span class="ref-card__badge ref-card__badge--' + esc(r.idioma) + '">' + badge(r.idioma) + "</span>" +
-              '<img class="ref-card__avatar" src="' + esc(r.imagen) + '" alt="Foto de ' + esc(r.nombre) + '" width="120" height="120" loading="lazy" decoding="async" />' +
+              '<img class="ref-card__avatar" src="' + esc(r.imagen) + '" alt="Foto de ' + esc(r.nombre) + '" width="120" height="120" loading="lazy" decoding="async" draggable="false" />' +
               '<h3 class="ref-card__name">' + esc(r.nombre) + "</h3>" +
               '<p class="ref-card__role">' + esc(r.especialidad) + "</p>" +
               '<div class="ref-card__stars" role="img" aria-label="Calificación: ' + (parseInt(r.estrellas, 10) || 0) + ' de 5 estrellas">' + stars(r.estrellas) + "</div>" +
@@ -225,67 +230,77 @@
           "</li>"
         );
       }).join("");
-      if (index > maxIndex()) index = maxIndex();
       renderDots();
-      update();
+      viewport.scrollLeft = 0;
+      updateUI();
     }
 
     function renderDots() {
-      var n = maxIndex() + 1;
-      var html = "";
-      for (var i = 0; i < n; i++) {
-        html += '<button class="carousel__dot" type="button" data-i="' + i + '" aria-label="Ir a la posición ' + (i + 1) + '"></button>';
-      }
-      dotsWrap.innerHTML = html;
+      dotsWrap.innerHTML = items.map(function (r, i) {
+        return '<button class="carousel__dot" type="button" data-i="' + i + '" aria-label="Ir al referente ' + (i + 1) + ": " + esc(r.nombre) + '"></button>';
+      }).join("");
     }
 
-    function update() {
-      track.style.transform = "translateX(" + (-index * (100 / perView)) + "%)";
-      if (counter) counter.textContent = (index + 1) + " / " + (maxIndex() + 1);
+    function updateUI() {
+      var idx = activeIndex();
+      if (counter) counter.textContent = (idx + 1) + " / " + items.length;
       Array.prototype.forEach.call(dotsWrap.children, function (d, i) {
-        var active = i === index;
-        d.classList.toggle("is-active", active);
-        d.setAttribute("aria-current", active ? "true" : "false");
+        var on = i === idx;
+        d.classList.toggle("is-active", on);
+        d.setAttribute("aria-current", on ? "true" : "false");
       });
     }
 
-    function go(i) {
-      var max = maxIndex();
-      if (i < 0) i = max;
-      else if (i > max) i = 0;
-      index = i;
-      update();
+    function scrollToIndex(i) {
+      i = Math.max(0, Math.min(items.length - 1, i));
+      viewport.scrollTo({ left: i * cardWidth(), behavior: smooth });
     }
 
-    function startAuto() {
-      if (prefersReduced) return;
-      stopAuto();
-      if (items.length > perView) timer = setInterval(function () { go(index + 1); }, AUTO_MS);
-    }
-    function stopAuto() { if (timer) { clearInterval(timer); timer = null; } }
-    function restart() { startAuto(); }
-
-    nextBtn.addEventListener("click", function () { go(index + 1); restart(); });
-    prevBtn.addEventListener("click", function () { go(index - 1); restart(); });
+    nextBtn.addEventListener("click", function () { scrollToIndex(activeIndex() + 1); });
+    prevBtn.addEventListener("click", function () { scrollToIndex(activeIndex() - 1); });
     dotsWrap.addEventListener("click", function (e) {
       var b = e.target.closest("[data-i]");
-      if (b) { go(parseInt(b.getAttribute("data-i"), 10)); restart(); }
+      if (b) scrollToIndex(parseInt(b.getAttribute("data-i"), 10));
     });
 
     root.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowRight") { e.preventDefault(); go(index + 1); restart(); }
-      else if (e.key === "ArrowLeft") { e.preventDefault(); go(index - 1); restart(); }
+      if (e.key === "ArrowRight") { e.preventDefault(); scrollToIndex(activeIndex() + 1); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); scrollToIndex(activeIndex() - 1); }
     });
 
-    // Pausar auto-scroll al interactuar
-    root.addEventListener("mouseenter", stopAuto);
-    root.addEventListener("mouseleave", startAuto);
-    root.addEventListener("focusin", stopAuto);
-    root.addEventListener("focusout", startAuto);
-    root.addEventListener("touchstart", stopAuto, { passive: true });
-    document.addEventListener("visibilitychange", function () {
-      if (document.hidden) stopAuto(); else startAuto();
+    // Actualizar puntos/contador mientras se desplaza
+    var ticking = false;
+    viewport.addEventListener("scroll", function () {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(function () { updateUI(); ticking = false; });
+      }
+    }, { passive: true });
+
+    // Arrastrar con el mouse (en táctil se usa el scroll nativo del navegador)
+    var down = false, startX = 0, startLeft = 0, moved = false;
+    viewport.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse") return;
+      down = true; moved = false;
+      startX = e.clientX; startLeft = viewport.scrollLeft;
+      viewport.classList.add("is-dragging");
     });
+    window.addEventListener("pointermove", function (e) {
+      if (!down) return;
+      var dx = e.clientX - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      viewport.scrollLeft = startLeft - dx;
+    });
+    window.addEventListener("pointerup", function () {
+      if (!down) return;
+      down = false;
+      viewport.classList.remove("is-dragging");
+      scrollToIndex(activeIndex()); // re-imanta a la tarjeta más cercana
+    });
+    // Evitar que un arrastre dispare el click del botón "Ver biografía"
+    viewport.addEventListener("click", function (e) {
+      if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
+    }, true);
 
     // Filtro por idioma (es / en / todos)
     filterBtns.forEach(function (btn) {
@@ -296,10 +311,8 @@
           b.classList.toggle("is-active", on);
           b.setAttribute("aria-pressed", on ? "true" : "false");
         });
-        index = 0;
         applyFilter();
         render();
-        restart();
       });
     });
 
@@ -310,12 +323,12 @@
       rt = setTimeout(function () {
         var old = perView;
         perView = computePerView();
-        if (old !== perView) render(); else update();
+        if (old !== perView) render(); else updateUI();
       }, 150);
     });
 
     // Datos estructurados (schema.org) con todos los referentes
-    function injectSchema() {
+    (function injectSchema() {
       try {
         var json = {
           "@context": "https://schema.org",
@@ -334,11 +347,9 @@
         s.textContent = JSON.stringify(json);
         document.head.appendChild(s);
       } catch (e) { /* sin bloqueo si falla */ }
-    }
+    })();
 
     applyFilter();
     render();
-    injectSchema();
-    startAuto();
   })();
 })();

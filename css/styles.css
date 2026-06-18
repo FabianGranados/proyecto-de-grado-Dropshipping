@@ -811,18 +811,35 @@ strong { font-weight: 600; color: var(--ink); }
   outline-offset: 6px;
   border-radius: var(--r-lg);
 }
-.carousel__viewport { flex: 1; min-width: 0; overflow: hidden; }
+.carousel__viewport {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;          /* Firefox: sin barra */
+  cursor: grab;
+}
+.carousel__viewport::-webkit-scrollbar { display: none; } /* WebKit: sin barra */
+.carousel__viewport.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+  user-select: none;
+}
 .carousel__track {
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
-  transition: transform .55s var(--ease);
 }
 .carousel__slide {
   flex: 0 0 calc(100% / var(--per-view, 1));
   box-sizing: border-box;
   padding: 10px clamp(6px, 1.2vw, 12px);
+  scroll-snap-align: start;
 }
 
 /* Tarjeta de referente */
