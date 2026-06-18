@@ -153,4 +153,192 @@
     }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
     sections.forEach(function (s) { spy.observe(s); });
   }
+
+  /* ----------------------------------------------------------------------
+     7. Carrusel de "Referentes del sector"
+        Renderiza las tarjetas desde window.REFERENTES (js/referentes.js):
+        navegación prev/next, puntos, contador, filtro por idioma,
+        auto-scroll con pausa, teclado y datos estructurados (JSON-LD).
+  ---------------------------------------------------------------------- */
+  (function () {
+    var data = window.REFERENTES || [];
+    var root = document.getElementById("refCarousel");
+    var track = document.getElementById("refTrack");
+    if (!root || !track || !data.length) return;
+
+    var counter = document.getElementById("refCounter");
+    var dotsWrap = document.getElementById("refDots");
+    var prevBtn = root.querySelector(".carousel__btn--prev");
+    var nextBtn = root.querySelector(".carousel__btn--next");
+    var filterBtns = Array.prototype.slice.call(document.querySelectorAll(".ref-filter"));
+
+    var filter = "all";
+    var items = [];
+    var index = 0;
+    var perView = 1;
+    var timer = null;
+    var AUTO_MS = 5000;
+
+    function computePerView() {
+      var w = window.innerWidth;
+      if (w >= 992) return 3;
+      if (w >= 600) return 2;
+      return 1;
+    }
+    function maxIndex() { return Math.max(0, items.length - perView); }
+    function badge(lang) { return lang === "en" ? "Angloparlante" : "Hispanohablante"; }
+    function platform(url) {
+      if (/linkedin\./i.test(url)) return "LinkedIn";
+      if (/youtube\.|youtu\.be/i.test(url)) return "YouTube";
+      return "Sitio web";
+    }
+    function stars(n) {
+      n = Math.max(0, Math.min(5, parseInt(n, 10) || 0));
+      return "★★★★★".slice(0, n) + "☆☆☆☆☆".slice(0, 5 - n);
+    }
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+
+    function applyFilter() {
+      items = filter === "all" ? data.slice() : data.filter(function (r) { return r.idioma === filter; });
+    }
+
+    function render() {
+      perView = computePerView();
+      track.style.setProperty("--per-view", perView);
+      track.innerHTML = items.map(function (r, i) {
+        return (
+          '<li class="carousel__slide" role="group" aria-roledescription="diapositiva" aria-label="' + (i + 1) + " de " + items.length + '">' +
+            '<article class="ref-card">' +
+              '<span class="ref-card__badge ref-card__badge--' + esc(r.idioma) + '">' + badge(r.idioma) + "</span>" +
+              '<img class="ref-card__avatar" src="' + esc(r.imagen) + '" alt="Foto de ' + esc(r.nombre) + '" width="120" height="120" loading="lazy" decoding="async" />' +
+              '<h3 class="ref-card__name">' + esc(r.nombre) + "</h3>" +
+              '<p class="ref-card__role">' + esc(r.especialidad) + "</p>" +
+              '<div class="ref-card__stars" role="img" aria-label="Calificación: ' + (parseInt(r.estrellas, 10) || 0) + ' de 5 estrellas">' + stars(r.estrellas) + "</div>" +
+              '<p class="ref-card__desc">' + esc(r.descripcion) + "</p>" +
+              '<a class="btn btn--primary ref-card__btn" href="' + esc(r.enlace) + '" target="_blank" rel="noopener noreferrer">Ver biografía <span aria-hidden="true">&rarr;</span><span class="sr-only"> (se abre en una pestaña nueva)</span></a>' +
+              '<span class="ref-card__platform">' + platform(r.enlace) + "</span>" +
+            "</article>" +
+          "</li>"
+        );
+      }).join("");
+      if (index > maxIndex()) index = maxIndex();
+      renderDots();
+      update();
+    }
+
+    function renderDots() {
+      var n = maxIndex() + 1;
+      var html = "";
+      for (var i = 0; i < n; i++) {
+        html += '<button class="carousel__dot" type="button" data-i="' + i + '" aria-label="Ir a la posición ' + (i + 1) + '"></button>';
+      }
+      dotsWrap.innerHTML = html;
+    }
+
+    function update() {
+      track.style.transform = "translateX(" + (-index * (100 / perView)) + "%)";
+      if (counter) counter.textContent = (index + 1) + " / " + (maxIndex() + 1);
+      Array.prototype.forEach.call(dotsWrap.children, function (d, i) {
+        var active = i === index;
+        d.classList.toggle("is-active", active);
+        d.setAttribute("aria-current", active ? "true" : "false");
+      });
+    }
+
+    function go(i) {
+      var max = maxIndex();
+      if (i < 0) i = max;
+      else if (i > max) i = 0;
+      index = i;
+      update();
+    }
+
+    function startAuto() {
+      if (prefersReduced) return;
+      stopAuto();
+      if (items.length > perView) timer = setInterval(function () { go(index + 1); }, AUTO_MS);
+    }
+    function stopAuto() { if (timer) { clearInterval(timer); timer = null; } }
+    function restart() { startAuto(); }
+
+    nextBtn.addEventListener("click", function () { go(index + 1); restart(); });
+    prevBtn.addEventListener("click", function () { go(index - 1); restart(); });
+    dotsWrap.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-i]");
+      if (b) { go(parseInt(b.getAttribute("data-i"), 10)); restart(); }
+    });
+
+    root.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); go(index + 1); restart(); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); go(index - 1); restart(); }
+    });
+
+    // Pausar auto-scroll al interactuar
+    root.addEventListener("mouseenter", stopAuto);
+    root.addEventListener("mouseleave", startAuto);
+    root.addEventListener("focusin", stopAuto);
+    root.addEventListener("focusout", startAuto);
+    root.addEventListener("touchstart", stopAuto, { passive: true });
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) stopAuto(); else startAuto();
+    });
+
+    // Filtro por idioma (es / en / todos)
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        filter = btn.getAttribute("data-filter");
+        filterBtns.forEach(function (b) {
+          var on = b === btn;
+          b.classList.toggle("is-active", on);
+          b.setAttribute("aria-pressed", on ? "true" : "false");
+        });
+        index = 0;
+        applyFilter();
+        render();
+        restart();
+      });
+    });
+
+    // Recalcular cuántas tarjetas por vista al cambiar el tamaño
+    var rt;
+    window.addEventListener("resize", function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () {
+        var old = perView;
+        perView = computePerView();
+        if (old !== perView) render(); else update();
+      }, 150);
+    });
+
+    // Datos estructurados (schema.org) con todos los referentes
+    function injectSchema() {
+      try {
+        var json = {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Referentes del sector del dropshipping",
+          itemListElement: data.map(function (r, i) {
+            return {
+              "@type": "ListItem",
+              position: i + 1,
+              item: { "@type": "Person", name: r.nombre, jobTitle: r.especialidad, description: r.descripcion, url: r.enlace }
+            };
+          })
+        };
+        var s = document.createElement("script");
+        s.type = "application/ld+json";
+        s.textContent = JSON.stringify(json);
+        document.head.appendChild(s);
+      } catch (e) { /* sin bloqueo si falla */ }
+    }
+
+    applyFilter();
+    render();
+    injectSchema();
+    startAuto();
+  })();
 })();

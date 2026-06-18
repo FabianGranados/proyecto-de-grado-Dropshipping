@@ -47,6 +47,7 @@
       <nav class="nav__links" id="navLinks" aria-label="Navegación principal">
         <a href="#que-es">Qué es</a>
         <a href="#como-funciona">Cómo funciona</a>
+        <a href="#referentes">Referentes</a>
         <a href="#ventajas">Ventajas y retos</a>
         <a href="#empezar">Cómo empezar</a>
         <a href="#herramientas">Herramientas</a>
@@ -207,6 +208,36 @@
           <span class="formula__chip formula__chip--cost">Costos</span>
           <span class="formula__op">=</span>
           <span class="formula__chip formula__chip--profit">Tu ganancia</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ REFERENTES DEL SECTOR ============ -->
+    <section class="section section--referentes" id="referentes" aria-labelledby="referentes-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="section-tag">// expertos</span>
+          <h2 class="section-title" id="referentes-title">Referentes del sector</h2>
+          <p class="section-sub">Voces influyentes del dropshipping y el comercio electrónico, en español e inglés.</p>
+        </div>
+
+        <div class="ref-filters reveal" role="group" aria-label="Filtrar referentes por idioma">
+          <button class="ref-filter is-active" type="button" data-filter="all" aria-pressed="true">Todos</button>
+          <button class="ref-filter" type="button" data-filter="es" aria-pressed="false">Español</button>
+          <button class="ref-filter" type="button" data-filter="en" aria-pressed="false">Inglés</button>
+        </div>
+
+        <div class="carousel reveal" id="refCarousel" role="region" aria-roledescription="carrusel" aria-label="Referentes del sector" tabindex="0">
+          <button class="carousel__btn carousel__btn--prev" type="button" aria-label="Referente anterior">&#8249;</button>
+          <div class="carousel__viewport">
+            <ul class="carousel__track" id="refTrack"></ul>
+          </div>
+          <button class="carousel__btn carousel__btn--next" type="button" aria-label="Siguiente referente">&#8250;</button>
+        </div>
+
+        <div class="carousel__controls reveal">
+          <span class="carousel__counter" id="refCounter" aria-live="polite">1 / 5</span>
+          <div class="carousel__dots" id="refDots" aria-label="Seleccionar referente"></div>
         </div>
       </div>
     </section>
@@ -453,6 +484,7 @@
   <!-- Botón volver arriba -->
   <button class="to-top" id="toTop" aria-label="Volver arriba" title="Volver arriba">↑</button>
 
+  <script src="js/referentes.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>

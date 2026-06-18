@@ -101,6 +101,19 @@ strong { font-weight: 600; color: var(--ink); }
 
 ::selection { background: var(--indigo); color: #fff; }
 
+/* Solo para lectores de pantalla */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .skip-link {
   position: absolute;
   left: -9999px;
@@ -739,6 +752,200 @@ strong { font-weight: 600; color: var(--ink); }
 .final h2 { color: #fff; font-size: clamp(1.8rem, 4vw, 2.8rem); }
 .final p { color: #c7d2e4; font-size: 1.12rem; margin-bottom: 2rem; }
 .final strong { color: #fff; }
+
+/* Referentes del sector (banda oscura + carrusel) */
+.section--referentes {
+  position: relative;
+  background: var(--bg-dark);
+  color: #fff;
+  overflow: hidden;
+}
+.section--referentes::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(55% 50% at 50% 0%, rgba(99, 102, 241, .28), transparent 62%);
+  pointer-events: none;
+}
+.section--referentes > .container { position: relative; z-index: 1; }
+.section--referentes .section-tag { color: var(--cyan); }
+.section--referentes .section-title { color: #fff; }
+.section--referentes .section-sub { color: #c7d2e4; }
+
+/* Filtros por idioma */
+.ref-filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: clamp(28px, 4vw, 40px);
+}
+.ref-filter {
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .06);
+  color: #e2e8f0;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: .92rem;
+  cursor: pointer;
+  transition: background .25s, border-color .25s, color .25s, transform .2s var(--ease);
+}
+.ref-filter:hover { transform: translateY(-2px); border-color: var(--cyan); }
+.ref-filter.is-active {
+  background: var(--grad);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: var(--shadow-glow);
+}
+
+/* Carrusel */
+.carousel {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 2vw, 16px);
+}
+.carousel:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 6px;
+  border-radius: var(--r-lg);
+}
+.carousel__viewport { flex: 1; min-width: 0; overflow: hidden; }
+.carousel__track {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  transition: transform .55s var(--ease);
+}
+.carousel__slide {
+  flex: 0 0 calc(100% / var(--per-view, 1));
+  box-sizing: border-box;
+  padding: 10px clamp(6px, 1.2vw, 12px);
+}
+
+/* Tarjeta de referente */
+.ref-card {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: #fff;
+  color: var(--ink);
+  border-radius: var(--r-lg);
+  padding: 32px 24px 26px;
+  box-shadow: var(--shadow-lg);
+  transition: transform .3s var(--ease);
+}
+.ref-card:hover { transform: translateY(-6px); }
+.ref-card__badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.ref-card__badge--es { background: #ede9fe; color: #6d28d9; }
+.ref-card__badge--en { background: #cffafe; color: #0e7490; }
+.ref-card__avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, .30);
+  margin-bottom: 16px;
+}
+.ref-card__name { font-size: 1.3rem; margin-bottom: 2px; }
+.ref-card__role {
+  color: var(--indigo);
+  font-weight: 600;
+  font-size: .95rem;
+  margin-bottom: 10px;
+}
+.ref-card__stars {
+  color: #f59e0b;
+  letter-spacing: 3px;
+  font-size: 1.05rem;
+  margin-bottom: 12px;
+}
+.ref-card__desc {
+  color: var(--muted);
+  font-size: .95rem;
+  margin-bottom: 20px;
+  flex: 1;
+}
+.ref-card__btn { margin-top: auto; }
+.ref-card__platform {
+  margin-top: 14px;
+  font-size: .8rem;
+  color: var(--muted);
+}
+.ref-card__platform::before { content: "↗ "; }
+
+/* Botones anterior / siguiente */
+.carousel__btn {
+  flex: none;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: none;
+  background: var(--grad);
+  color: #fff;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow-glow);
+  transition: transform .25s var(--ease);
+}
+.carousel__btn:hover { transform: scale(1.08); }
+.carousel__btn:active { transform: scale(.95); }
+
+/* Controles inferiores: contador + puntos */
+.carousel__controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 26px;
+}
+.carousel__counter {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: .95rem;
+  color: #c7d2e4;
+}
+.carousel__dots { display: flex; gap: 9px; }
+.carousel__dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, .25);
+  cursor: pointer;
+  transition: background .25s, width .25s var(--ease);
+}
+.carousel__dot:hover { background: rgba(255, 255, 255, .5); }
+.carousel__dot.is-active {
+  width: 26px;
+  border-radius: 999px;
+  background: var(--cyan);
+}
+
+@media (max-width: 520px) {
+  .carousel__btn { width: 44px; height: 44px; font-size: 1.35rem; }
+  .ref-card { padding: 28px 18px 22px; }
+}
 
 /* 8. FOOTER Y FLOTANTES ---------------------------------------------------- */
 .footer {
