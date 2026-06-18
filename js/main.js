@@ -221,7 +221,7 @@
               '<p class="ref-card__role">' + esc(r.especialidad) + "</p>" +
               '<div class="ref-card__stars" role="img" aria-label="Calificación: ' + (parseInt(r.estrellas, 10) || 0) + ' de 5 estrellas">' + stars(r.estrellas) + "</div>" +
               '<p class="ref-card__desc">' + esc(r.descripcion) + "</p>" +
-              '<a class="btn btn--primary ref-card__btn" href="' + esc(r.enlace) + '" target="_blank" rel="noopener noreferrer">Ver biografía <span aria-hidden="true">&rarr;</span><span class="sr-only"> (se abre en una pestaña nueva)</span></a>' +
+              '<a class="btn btn--primary ref-card__btn" href="biografia.html?ref=' + encodeURIComponent(r.slug) + '">Ver biografía <span aria-hidden="true">&rarr;</span></a>' +
               '<span class="ref-card__platform">' + platform(r.enlace) + "</span>" +
             "</article>" +
           "</li>"

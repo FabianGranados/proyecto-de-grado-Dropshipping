@@ -1084,6 +1084,130 @@ strong { font-weight: 600; color: var(--ink); }
   .ref-card { padding: 28px 18px 22px; }
 }
 
+/* ==== Página de biografía dinámica (biografia.html) ==== */
+.bio-hero {
+  position: relative;
+  background: var(--bg-dark);
+  color: #fff;
+  padding: calc(var(--nav-h) + clamp(34px, 7vw, 70px)) 0 clamp(40px, 6vw, 72px);
+  overflow: hidden;
+  isolation: isolate;
+}
+.bio-hero__aurora {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  background:
+    radial-gradient(40% 50% at 25% 20%, rgba(99, 102, 241, .45), transparent 60%),
+    radial-gradient(45% 55% at 80% 30%, rgba(6, 182, 212, .35), transparent 60%);
+  filter: blur(30px);
+}
+.bio-hero__inner { position: relative; z-index: 1; }
+.bio-hero .tex { color: var(--cyan); }
+
+.bio-back { display: inline-block; margin-bottom: 22px; color: #c7d2e4; font-weight: 600; font-size: .95rem; }
+.bio-back:hover { color: #fff; }
+
+.bio-id { display: flex; align-items: center; gap: clamp(20px, 4vw, 36px); flex-wrap: wrap; }
+.bio-avatar {
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid rgba(255, 255, 255, .9);
+  box-shadow: 0 18px 50px rgba(6, 182, 212, .35);
+  flex: none;
+}
+.bio-id__main { flex: 1; min-width: 260px; }
+.bio-badge { position: static; display: inline-block; margin-bottom: 12px; }
+.bio-name { color: #fff; font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 4px; }
+.bio-role { color: var(--cyan); font-weight: 600; font-size: 1.1rem; margin: 0 0 10px; }
+.bio-stars { color: #f59e0b; letter-spacing: 3px; font-size: 1.2rem; margin-bottom: 12px; }
+.bio-desc { color: #c7d2e4; font-size: 1.1rem; max-width: 640px; margin: 0; }
+
+.bio-kpis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 30px; }
+.bio-kpi {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: var(--r-md);
+  padding: 18px 20px;
+}
+.bio-kpi__label { color: #9fb0c9; font-size: .82rem; text-transform: uppercase; letter-spacing: .08em; }
+.bio-kpi__value { color: #fff; font-family: var(--font-head); font-weight: 600; font-size: 1.05rem; }
+
+.bio-social { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 26px; }
+.bio-social__label { color: #9fb0c9; font-weight: 600; font-size: .92rem; margin-right: 4px; }
+.bio-social__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .16);
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: .9rem;
+  transition: background .2s, border-color .2s, transform .2s var(--ease);
+}
+.bio-social__link:hover { background: rgba(255, 255, 255, .16); border-color: var(--cyan); color: #fff; transform: translateY(-2px); }
+
+.bio-ficha { display: grid; gap: 0; margin-bottom: clamp(32px, 5vw, 48px); }
+.bio-ficha__row {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 18px;
+  padding: 18px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.bio-ficha__row:last-child { border-bottom: 0; }
+.bio-ficha__k { font-family: var(--font-head); font-weight: 600; color: var(--indigo); }
+.bio-ficha__v { color: var(--ink-soft); }
+.bio-metrics { margin: 0; padding-left: 18px; color: var(--ink-soft); }
+.bio-metrics li { margin-bottom: 8px; }
+
+.bio-graph__title { font-size: 1.2rem; margin: 0 0 12px; }
+.bio-graph {
+  margin: 0;
+  background: var(--bg-dark);
+  color: var(--cyan);
+  border-radius: var(--r-md);
+  padding: 22px 20px;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: clamp(.72rem, 1.7vw, .95rem);
+  line-height: 1.7;
+  white-space: pre;
+  box-shadow: var(--shadow-md);
+}
+.bio-graph__note { color: var(--muted); font-size: .85rem; margin: 10px 0 0; }
+
+.bio-prose p { color: var(--ink-soft); font-size: 1.08rem; line-height: 1.8; margin-bottom: 1.3rem; }
+.bio-prose p:last-child { margin-bottom: 0; }
+
+.tex {
+  font-family: "Cambria Math", Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--indigo);
+  padding: 0 .12em;
+  white-space: nowrap;
+}
+
+.bio-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: clamp(28px, 5vw, 40px); }
+
+@media (max-width: 600px) {
+  .bio-id { flex-direction: column; text-align: center; align-items: center; }
+  .bio-id__main { min-width: 0; }
+  .bio-stars, .bio-desc { margin-left: auto; margin-right: auto; }
+  .bio-kpis { grid-template-columns: 1fr; }
+  .bio-ficha__row { grid-template-columns: 1fr; gap: 6px; }
+  .bio-social { justify-content: center; }
+}
+
 /* 8. FOOTER Y FLOTANTES ---------------------------------------------------- */
 .footer {
   background: #070b16;
