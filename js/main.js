@@ -179,10 +179,7 @@
     var smooth = prefersReduced ? "auto" : "smooth";
 
     function computePerView() {
-      var w = window.innerWidth;
-      if (w >= 992) return 3;
-      if (w >= 600) return 2;
-      return 1;
+      return 1; // pantalla completa: una tarjeta por vista
     }
     function cardWidth() {
       var first = track.children[0];

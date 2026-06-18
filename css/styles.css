@@ -753,24 +753,126 @@ strong { font-weight: 600; color: var(--ink); }
 .final p { color: #c7d2e4; font-size: 1.12rem; margin-bottom: 2rem; }
 .final strong { color: #fff; }
 
-/* Referentes del sector (banda oscura + carrusel) */
-.section--referentes {
+/* Referentes del sector — variante a PANTALLA COMPLETA (estilo inmersivo).
+   Cada referente ocupa todo el viewport; sigue siendo deslizable. */
+.referentes-fs {
   position: relative;
+  height: 100svh;
+  min-height: 600px;
   background: var(--bg-dark);
   color: #fff;
   overflow: hidden;
 }
-.section--referentes::before {
+.referentes-fs .carousel {
+  position: relative;
+  display: block;
+  height: 100%;
+  gap: 0;
+}
+.referentes-fs .carousel__viewport { height: 100%; flex: none; }
+.referentes-fs .carousel__slide {
+  flex: 0 0 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: clamp(96px, 16vh, 150px) 20px clamp(92px, 14vh, 140px);
+  position: relative;
+}
+.referentes-fs .carousel__slide::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(55% 50% at 50% 0%, rgba(99, 102, 241, .28), transparent 62%);
+  background:
+    radial-gradient(60% 55% at 50% 42%, rgba(99, 102, 241, .32), transparent 62%),
+    radial-gradient(46% 46% at 82% 84%, rgba(6, 182, 212, .22), transparent 60%);
   pointer-events: none;
 }
-.section--referentes > .container { position: relative; z-index: 1; }
-.section--referentes .section-tag { color: var(--cyan); }
-.section--referentes .section-title { color: #fff; }
-.section--referentes .section-sub { color: #c7d2e4; }
+
+/* Tarjeta inmersiva: sin caja blanca, texto claro, en grande */
+.referentes-fs .ref-card {
+  position: relative;
+  z-index: 1;
+  height: auto;
+  max-width: 640px;
+  padding: 0 8px;
+  background: transparent;
+  box-shadow: none;
+  color: #fff;
+}
+.referentes-fs .ref-card:hover { transform: none; }
+.referentes-fs .ref-card__badge { position: static; margin: 0 0 18px; }
+.referentes-fs .ref-card__avatar {
+  width: clamp(132px, 20vh, 176px);
+  height: clamp(132px, 20vh, 176px);
+  border-color: rgba(255, 255, 255, .9);
+  box-shadow: 0 18px 50px rgba(6, 182, 212, .35);
+  margin-bottom: 22px;
+}
+.referentes-fs .ref-card__name { color: #fff; font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 4px; }
+.referentes-fs .ref-card__role { color: var(--cyan); font-size: clamp(1rem, 2.2vw, 1.2rem); margin-bottom: 14px; }
+.referentes-fs .ref-card__stars { font-size: clamp(1.2rem, 2.6vw, 1.5rem); margin-bottom: 18px; }
+.referentes-fs .ref-card__desc {
+  color: #c7d2e4;
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  max-width: 540px;
+  margin: 0 auto 28px;
+}
+.referentes-fs .ref-card__btn { margin-top: 0; }
+.referentes-fs .ref-card__platform { color: #9fb0c9; margin-top: 20px; }
+
+/* Overlays: título + filtros (arriba) y contador + segmentos (abajo) */
+.reffs-top,
+.reffs-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+.reffs-top {
+  top: 0;
+  gap: 10px;
+  padding: clamp(20px, 4vh, 40px) 16px 0;
+  text-align: center;
+}
+.reffs-top .section-tag { color: var(--cyan); margin: 0; }
+.reffs-top .section-title {
+  color: #fff;
+  margin: 0;
+  font-size: clamp(1.5rem, 3.6vw, 2.2rem);
+  text-shadow: 0 2px 24px rgba(0, 0, 0, .55);
+}
+.reffs-top .ref-filters { margin: 6px 0 0; pointer-events: auto; }
+.reffs-bottom { bottom: clamp(20px, 4vh, 40px); gap: 14px; }
+.reffs-bottom .carousel__counter { color: #c7d2e4; }
+.reffs-bottom .carousel__dots { pointer-events: auto; }
+
+/* Flechas grandes a los lados */
+.referentes-fs .carousel__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: clamp(48px, 6vw, 62px);
+  height: clamp(48px, 6vw, 62px);
+}
+.referentes-fs .carousel__btn--prev { left: clamp(10px, 3vw, 44px); }
+.referentes-fs .carousel__btn--next { right: clamp(10px, 3vw, 44px); }
+.referentes-fs .carousel__btn:hover { transform: translateY(-50%) scale(1.08); }
+.referentes-fs .carousel__btn:active { transform: translateY(-50%) scale(.95); }
+
+/* Indicadores como segmentos (estilo pantalla completa) */
+.referentes-fs .carousel__dot { width: 36px; height: 4px; border-radius: 2px; background: rgba(255, 255, 255, .28); }
+.referentes-fs .carousel__dot:hover { background: rgba(255, 255, 255, .5); }
+.referentes-fs .carousel__dot.is-active { width: 64px; background: var(--cyan); }
+
+/* En móvil prima el swipe: ocultamos las flechas */
+@media (max-width: 600px) {
+  .referentes-fs .carousel__btn { display: none; }
+}
 
 /* Filtros por idioma */
 .ref-filters {
